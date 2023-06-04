@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Player
   attr_reader :name, :marker
 
@@ -12,6 +14,8 @@ class Player
 end
 
 class Game
+  attr_accessor :board #I wrote this method for conducting tests
+
   def initialize
     @board = %w[1 2 3 4 5 6 7 8 9]
     @player_1 = Player.new('Player_1', 'x')
@@ -29,7 +33,7 @@ class Game
   def checking_input
     loop do
       number = @current_player.make_move
-      return number if @board.include?(number) && (number != '0' || number != 'x')
+      return number if @board.include? number
 
       puts 'Invalid input.'
     end
@@ -44,8 +48,7 @@ class Game
        (@board[2] + @board[5] + @board[8]).split('').all? { |i| i == @current_player.marker } ||
        (@board[0] + @board[4] + @board[8]).split('').all? { |i| i == @current_player.marker } ||
        (@board[2] + @board[4] + @board[6]).split('').all? { |i| i == @current_player.marker }
-      puts "#{@current_player.name} win!"
-      play_again?
+      true
     end
   end
 
@@ -89,15 +92,15 @@ class Game
     loop do
       player_choose
       print_board
-      win?
+      if win?
+        puts "#{@current_player.name} win!"
+        play_again?
+      end
       draw?
       change_player
     end
   end
 end
 
-game = Game.new
-game.play
-
-
-
+# game = Game.new
+# game.play

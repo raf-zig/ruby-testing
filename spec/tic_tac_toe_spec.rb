@@ -1,18 +1,36 @@
-require_relative '../lib/tic_tac_toe'
+require './lib/tic_tac_toe'
+
+describe Player do
+  describe '#initialize' do
+    subject(:player) {Player.new('Player_1', 'x')}
+
+    it 'name' do
+      expect(player.name).to eq('Player_1')
+    end
+
+    it 'marker' do
+      expect(player.marker).to eq('x')
+    end
+  end
+end
 
 describe Game do
-  describe "#win?" do
-    let(:player) { instance_double(Player, marker: 0) }
+  describe '#win?' do
+    subject(:game) {Game.new}
+    before do
+      game.board = %w[x x x 4 5 6 7 8 9]
+    end
     
-    subject(:game) { described_class.new }
-    
-    
-    it 'ggg' do
-      game.board = %w[0 0 0 4 5 6 7 8 9]
-      #allow (player).to receive(:marker).and_return('0') 
-      #game.instance_variable_get(:@board)
+    it 'x x x 4 5 6 7 8 9' do
+      expect(game.win?).to be true
+    end
 
-      expect(game.win?(player)).to eq true
+    before do
+      game.board = %w[1 2 3 x x x 7 8 9]
+    end
+    
+    it '1 2 3 x x x 7 8 9' do
+      expect(game.win?).to be true
     end
   end
 end
