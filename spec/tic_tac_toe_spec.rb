@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/tic_tac_toe'
+require_relative '../lib/tic_tac_toe'
 
 describe Player do
   describe '#initialize' do
@@ -111,6 +111,25 @@ describe Game do
     context 'not win' do
       it '1 2 3 4 5 6 7 8 9' do
         expect(game.win?).not_to be true
+      end
+    end
+  end
+
+  describe '#player_choose' do
+    subject(:choose) { Game.new }
+    context 'when user input is valid' do
+      it 'it is displayed on the board' do
+        valid_input = '3'
+        allow(choose).to receive(:checking_input).and_return(valid_input)
+        expect(choose.player_choose).to eq(%w[1 2 x 4 5 6 7 8 9])
+      end
+    end
+
+    context 'when user input is not valid' do
+      it 'it is not displayed on the board' do
+        input = '0'
+        allow(choose).to receive(:checking_input).and_return(input)
+        expect(choose.player_choose).to eq(%w[1 2 3 4 5 6 7 8 9])
       end
     end
   end
