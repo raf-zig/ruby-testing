@@ -14,7 +14,7 @@ class Player
 end
 
 class Game
-  attr_accessor :board #I wrote this method for conducting tests
+  attr_accessor :board # I wrote this method for conducting tests
 
   def initialize
     @board = %w[1 2 3 4 5 6 7 8 9]
