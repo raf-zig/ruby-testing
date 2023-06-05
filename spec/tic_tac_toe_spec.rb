@@ -6,11 +6,11 @@ describe Player do
   describe '#initialize' do
     subject(:player) { Player.new('Player_1', 'x') }
 
-    it 'method name' do
+    it 'name method is being created' do
       expect(player.name).to eq('Player_1')
     end
 
-    it 'method marker' do
+    it 'marker method is being created' do
       expect(player.marker).to eq('x')
     end
   end
@@ -19,97 +19,130 @@ end
 describe Game do
   describe '#win?' do
     subject(:game) { Game.new }
-    context 'win' do
+    context 'when x x x 4 5 6 7 8 9' do
       before do
         game.board = %w[x x x 4 5 6 7 8 9]
       end
 
-      it 'x x x 4 5 6 7 8 9' do
+      it 'win' do
         expect(game.win?).to be true
       end
     end
 
-    context 'win' do
+    context 'when 0 0 0 4 5 6 7 8 9' do
+      before do
+        game.board = %w[0 0 0 4 5 6 7 8 9]
+        game.change_player
+      end
+
+      it 'win' do
+        expect(game.win?).to be true
+      end
+    end
+
+    context 'when 1 2 3 x x x 7 8 9' do
       before do
         game.board = %w[1 2 3 x x x 7 8 9]
       end
 
-      it '1 2 3 x x x 7 8 9' do
+      it 'win' do
         expect(game.win?).to be true
       end
     end
 
-    context 'win' do
+    context 'when 1 2 3 4 5 6 x x x' do
       before do
         game.board = %w[1 2 3 4 5 6 x x x]
       end
 
-      it '1 2 3 4 5 6 x x x' do
+      it 'win' do
         expect(game.win?).to be true
       end
     end
 
-    context 'win' do
+    context 'when x 2 3 x 5 6 x 8 9' do
       before do
         game.board = %w[x 2 3 x 5 6 x 8 9]
       end
 
-      it 'x 2 3 x 5 6 x 8 9' do
+      it 'win' do
         expect(game.win?).to be true
       end
     end
 
-    context 'win' do
+    context 'when 1 x 3 4 x 6 7 x 9' do
       before do
         game.board = %w[1 x 3 4 x 6 7 x 9]
       end
 
-      it '1 x 3 4 x 6 7 x 9' do
+      it 'win' do
         expect(game.win?).to be true
       end
     end
 
-    context 'win' do
+    context 'when 1 2 x 4 5 x 7 8 x' do
       before do
         game.board = %w[1 2 x 4 5 x 7 8 x]
       end
 
-      it '1 2 x 4 5 x 7 8 x' do
+      it 'win' do
         expect(game.win?).to be true
       end
     end
 
-    context 'win' do
+    context 'when x 2 3 4 x 6 7 8 x' do
       before do
         game.board = %w[x 2 3 4 x 6 7 8 x]
       end
 
-      it 'x 2 3 4 x 6 7 8 x' do
+      it 'win' do
         expect(game.win?).to be true
       end
     end
 
-    context 'win' do
+    context 'when 1 2 x 4 x 6 x 8 9' do
       before do
         game.board = %w[1 2 x 4 x 6 x 8 9]
       end
 
-      it '1 2 x 4 x 6 x 8 9' do
+      it 'win' do
         expect(game.win?).to be true
       end
     end
 
-    context 'not win' do
+    context 'when 1 2 0 4 0 6 0 8 9' do
+      before do
+        game.board = %w[1 2 0 4 0 6 0 8 9]
+        game.change_player
+      end
+
+      it 'win' do
+        expect(game.win?).to be true
+      end
+    end
+
+    context 'when 1 2 3 4 5 6 7 8 x' do
       before do
         game.board = %w[1 2 3 4 5 6 7 8 x]
       end
-      it '1 2 3 4 5 6 7 8 x' do
+
+      it 'not win' do
         expect(game.win?).not_to be true
       end
     end
 
-    context 'not win' do
-      it '1 2 3 4 5 6 7 8 9' do
+    context 'when x 0 x 0 x x 0 0 0' do
+      before do
+        game.board = %w[x 0 x 0 x x 0 0 0]
+      end
+
+      it 'not win' do
+        expect(game.win?).not_to be true
+      end
+    end
+
+    context 'when 1 2 3 4 5 6 7 8 9' do
+      it 'not win' do
         expect(game.win?).not_to be true
       end
     end
@@ -117,24 +150,24 @@ describe Game do
 
   describe '#draw?' do
     subject(:replay_game) { Game.new }
-    context 'draw game' do
+    context 'when game is a draw' do
       before do
         replay_game.board = %w[x 0 x 0 x 0 0 x 0]
       end
 
-      it 'message - The game is over in a draw' do
+      it '"The game is over in a draw" -  message appears' do
         expect(replay_game).to receive(:puts).with('The game is over in a draw')
         expect(replay_game).to receive(:play_again?)
         replay_game.draw?
       end
     end
 
-    context 'no draw game' do
+    context 'when the game is not a draw' do
       before do
         replay_game.board = %w[x 0 x 1 x 0 5 x 0]
       end
 
-      it 'not message - The game is over in a draw' do
+      it '"The game is over in a draw" - message does not appear' do
         expect(replay_game).not_to receive(:puts).with('The game is over in a draw')
         expect(replay_game).not_to receive(:play_again?)
         replay_game.draw?
