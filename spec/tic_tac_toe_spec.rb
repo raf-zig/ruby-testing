@@ -115,9 +115,36 @@ describe Game do
     end
   end
 
+  describe '#draw?' do
+    subject(:replay_game) { Game.new }
+    context 'draw game' do
+      before do
+        replay_game.board = %w[x 0 x 0 x 0 0 x 0]
+      end
+
+      it 'message - The game is over in a draw' do
+        expect(replay_game).to receive(:puts).with('The game is over in a draw')
+        expect(replay_game).to receive(:play_again?)
+        replay_game.draw?
+      end
+    end
+
+    context 'no draw game' do
+      before do
+        replay_game.board = %w[x 0 x 1 x 0 5 x 0]
+      end
+
+      it 'not message - The game is over in a draw' do
+        expect(replay_game).not_to receive(:puts).with('The game is over in a draw')
+        expect(replay_game).not_to receive(:play_again?)
+        replay_game.draw?
+      end
+    end
+  end
+
   describe '#player_choose' do
     subject(:choose) { Game.new }
-    context 'when user input is valid' do
+    context 'when user makes input' do
       it 'it is displayed on the board' do
         valid_input = '3'
         allow(choose).to receive(:checking_input).and_return(valid_input)
@@ -125,7 +152,7 @@ describe Game do
       end
     end
 
-    context 'when user input is not valid' do
+    context 'when users input is not correct' do
       it 'it is not displayed on the board' do
         input = '0'
         allow(choose).to receive(:checking_input).and_return(input)

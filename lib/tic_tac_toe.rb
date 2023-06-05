@@ -9,7 +9,7 @@ class Player
   end
 
   def make_move
-    @player_choose = gets.chomp.to_s
+    gets.chomp.to_s
   end
 end
 
@@ -102,5 +102,5 @@ class Game
   end
 end
 
-# game = Game.new
-# game.play
+#game = Game.new
+#game.play
