@@ -6,11 +6,11 @@ describe Player do
   describe '#initialize' do
     subject(:player) { Player.new('Player_1', 'x') }
 
-    it 'name' do
+    it 'method name' do
       expect(player.name).to eq('Player_1')
     end
 
-    it 'marker' do
+    it 'method marker' do
       expect(player.marker).to eq('x')
     end
   end
@@ -139,6 +139,23 @@ describe Game do
         expect(replay_game).not_to receive(:play_again?)
         replay_game.draw?
       end
+    end
+  end
+
+  describe '#play_again?' do
+    subject(:new_game) { Game.new }
+    it 'user wants to play a new game' do
+      expect(new_game).to receive(:print).with('Play again? y/n:')
+      allow(new_game).to receive(:gets).and_return('y')
+      expect(new_game).to receive(:play)
+      new_game.play_again?
+    end
+    
+    it 'user does not want to play a new game' do
+      expect(new_game).to receive(:print).with('Play again? y/n:')
+      allow(new_game).to receive(:gets).and_return('n')
+      expect(new_game).to receive(:exit)
+      new_game.play_again?
     end
   end
 
