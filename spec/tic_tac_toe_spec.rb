@@ -150,12 +150,22 @@ describe Game do
       expect(new_game).to receive(:play)
       new_game.play_again?
     end
-    
+
     it 'user does not want to play a new game' do
       expect(new_game).to receive(:print).with('Play again? y/n:')
       allow(new_game).to receive(:gets).and_return('n')
       expect(new_game).to receive(:exit)
       new_game.play_again?
+    end
+  end
+
+  describe '#change_player' do
+    subject(:player) { Game.new }
+    it 'transition between players' do
+      player1 = player.instance_variable_get(:@player_1)
+      player2 = player.instance_variable_get(:@player_2)
+      expect(player.change_player).to eq(player2)
+      expect(player.change_player).to eq(player1)
     end
   end
 
